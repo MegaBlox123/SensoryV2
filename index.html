@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensory Studios</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #FF8C00, #FFD700);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+
+        /* Commands Section */
+        .commands {
+            padding: 80px 0;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .command-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .command-card h4 {
+            color: #FF8C00;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+        }
+
+        /* Info Section */
+        .info {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .info-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .info-content h2 {
+            margin-bottom: 2rem;
+            color: #4ecdc4;
+        }
+
+        .info-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                Sensory Studios
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#info">Info</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="floating">🎮 Sensory Studios</h1>
+                <p><strong>Built for communities, powered by passion.</strong></p>
+                <p>Sensory Studios is a powerful Discord bot that brings together everything you need to manage your Roblox-focused Discord server — all in one place, and <strong>completely free</strong>.</p>
+                <p>From linking roles to moderating your server and managing your community, Sensory Studios simplifies it all.</p>
+                <div class="cta-buttons">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1363265053431959794" class="btn btn-primary" target="_blank">
+                        🤖 Invite Bot
+                    </a>
+                    <a href="https://discord.gg/femcg5mWNp" class="btn btn-secondary" target="_blank">
+                        💬 Support Server
+                    </a>
+                </div>
+                <div style="margin-top: 2rem; color: #FFD700; font-weight: bold; font-size: 1.1rem;">
+                    No paywalls. Just great features.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title fade-in">✨ Bot Features</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Moderation Tools</h3>
+                    <p>Comprehensive moderation features including kick, ban, mute, and channel management to keep your Roblox community safe and organized.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Roblox Group Integration</h3>
+                    <p>Seamlessly integrate with your Roblox group, link roles, and manage group-based permissions within your Discord server.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Useful Commands</h3>
+                    <p>Essential utility commands for server information, user management, and community interaction - all optimized for Roblox servers.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🆓</div>
+                    <h3>Completely Free</h3>
+                    <p>No paywalls, no premium tiers, no hidden costs. All features are available for free to help your Roblox community thrive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section id="commands" class="commands">
+        <div class="container">
+            <h2 class="section-title fade-in">🎮 Bot Commands</h2>
+            <div class="commands-grid">
+                <div class="command-card fade-in">
+                    <h4>📚 General Commands</h4>
+                    <div class="command-code">\help</div>
+                    <div class="command-code">\info</div>
+                    <div class="command-code">\ticket &lt;reason&gt;</div>
+                    <div class="command-code">\dev &lt;message&gt;</div>
+                    <div class="command-code">\roles</div>
+                    <p>Essential commands for general bot usage and information</p>
+                </div>
+                <div class="command-card fade-in">
+                    <h4>🛡️ Moderation Commands</h4>
+                    <div class="command-code">\setup</div>
+                    <div class="command-code">\kick @user [reason]</div>
+                    <div class="command-code">\ban @user [reason]</div>
+                    <div class="command-code">\mute @user</div>
+                    <div class="command-code">\purge &lt;number&gt;</div>
+                    <p>Comprehensive moderation tools for server management</p>
+                </div>
+                <div class="command-card fade-in">
+                    <h4>👑 Role Management</h4>
+                    <div class="command-code">\add-role @user &lt;role-name&gt;</div>
+                    <div class="command-code">\roles</div>
+                    <p>Manage user roles and server permissions</p>
+                </div>
+                <div class="command-card fade-in">
+                    <h4>🔒 Channel Control</h4>
+                    <div class="command-code">\lock-channel</div>
+                    <div class="command-code">\unlock-channel</div>
+                    <div class="command-code">\channel #channel your message here</div>
+                    <div class="command-code">\channel-message #channel your message</div>
+                    <p>Control channel permissions and send messages</p>
+                </div>
+                <div class="command-card fade-in">
+                    <h4>🎫 Support System</h4>
+                    <div class="command-code">\ticket &lt;reason&gt;</div>
+                    <div class="command-code">\dev &lt;message&gt;</div>
+                    <p>Professional ticket system for support and developer assistance</p>
+                </div>
+                <div class="command-card fade-in">
+                    <h4>⚙️ Setup & Configuration</h4>
+                    <div class="command-code">\setup</div>
+                    <p>Configure moderation roles and bot permissions for your server</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section id="info" class="info">
+        <div class="container">
+            <div class="info-content fade-in">
+                <h2>📋 About Sensory Studios</h2>
+                <p>
+                    <strong>Built for communities, powered by passion.</strong> Sensory Studios is a comprehensive Discord bot specifically designed 
+                    for Roblox-focused communities. We understand the unique needs of Roblox servers and have crafted features that 
+                    seamlessly integrate with your gaming community.
+                </p>
+                <p>
+                    <strong>🎮 Roblox-Focused Features:</strong><br>
+                    • Roblox Group Integration & Role Syncing<br>
+                    • Specialized Moderation for Gaming Communities<br>
+                    • Essential Utility Commands for Server Management<br>
+                    • Professional Support System with Tickets
+                </p>
+                <p>
+                    <strong>🆓 Completely Free:</strong><br>
+                    • No Premium Tiers or Paywalls<br>
+                    • All Features Available to Everyone<br>
+                    • No Hidden Costs or Subscriptions<br>
+                    • Built by the Community, for the Community
+                </p>
+                <p>
+                    <strong>📞 Support & Community:</strong><br>
+                    Join our support server to get help, share feedback, and connect with other Roblox server owners. 
+                    Our team is passionate about helping Roblox communities thrive and grow.
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; color: #FFD700; font-weight: bold; margin-top: 2rem;">
+                    Manage your server with Sensory Studios today.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sensory Studios. All rights reserved. | Made with ❤️ for the Roblox community</p>
+            <div style="margin-top: 1rem;">
+                <a href="https://discord.gg/femcg5mWNp" class="btn btn-secondary" target="_blank" style="margin: 0 0.5rem;">
+                    Support Server
+                </a>
+                <a href="https://discord.com/oauth2/authorize?client_id=1363265053431959794" class="btn btn-primary" target="_blank" style="margin: 0 0.5rem;">
+                    Invite Bot
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.3)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic typing effect for hero subtitle
+        const subtitle = document.querySelector('.hero-content p');
+        const text = subtitle.textContent;
+        subtitle.textContent = '';
+        
+        let i = 0;
+        const typeWriter = () => {
+            if (i < text.length) {
+                subtitle.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        };
+
+        setTimeout(() => {
+            typeWriter();
+        }, 1500);
+
+        // Button hover effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add sparkle effect to hero section
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'absolute';
+            sparkle.style.width = '4px';
+            sparkle.style.height = '4px';
+            sparkle.style.background = '#fff';
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.opacity = '0';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            
+            document.body.appendChild(sparkle);
+            
+            // Animate sparkle
+            sparkle.animate([
+                { opacity: 0, transform: 'scale(0)' },
+                { opacity: 1, transform: 'scale(1)' },
+                { opacity: 0, transform: 'scale(0)' }
+            ], {
+                duration: 2000,
+                easing: 'ease-in-out'
+            });
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 3000);
+    </script>
+</body>
+</html>
