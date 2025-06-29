@@ -192,7 +192,7 @@
         // Features Component
         const Features = () => {
             const features = [
-                { icon: "🛡️", title: "Moderation Tools", description: "Comprehensive moderation features including kick, ban, mute, and channel management." },
+                { icon: "🛡️", title: "Moderation Tools", description: "Comprehensive moderation features including kick, ban, mute, warn, and channel management." },
                 { icon: "🎮", title: "Roblox Group Integration", description: "Seamlessly integrate with your Roblox group, link roles, and manage permissions." },
                 { icon: "⚡", title: "Useful Commands", description: "Essential utility commands for server information and community interaction." },
                 { icon: "🆓", title: "Completely Free", description: "No paywalls, no premium tiers, no hidden costs." },
@@ -219,10 +219,10 @@
         // Commands Component
         const Commands = () => {
             const commands = [
-                { category: "📚 General Commands", commands: ["\\help", "\\info", "\\ticket <reason>", "\\dev <message>", "\\roles"], description: "Essential commands for general bot usage." },
-                { category: "🛡️ Moderation Commands", commands: ["\\setup", "\\kick @user [reason]", "\\ban @user [reason]", "\\mute @user", "\\purge <number>"], description: "Comprehensive moderation tools." },
-                { category: "👑 Role Management", commands: ["\\add-role @user <role-name>", "\\roles"], description: "Manage user roles and permissions." },
-                { category: "🔒 Channel Control", commands: ["\\lock-channel", "\\unlock-channel", "\\channel #channel your message"], description: "Control channel permissions." },
+                { category: "📚 General Commands", commands: [".help", ".info", ".ticket <reason>", ".dev <message>", ".roles"], description: "Essential commands for general bot usage." },
+                { category: "🛡️ Moderation Commands", commands: [".setup", ".kick @user [reason]", ".ban @user [reason]", ".mute @user", ".purge <number>", ".warn @user [reason]", ".warnings @user", ".globalwarn @user [reason]", ".globalwarnings @user"], description: "Comprehensive moderation tools including warning systems." },
+                { category: "👑 Role Management", commands: [".add-role @user <role-name>", ".roles"], description: "Manage user roles and permissions." },
+                { category: "🔒 Channel Control", commands: [".lock-channel", ".unlock-channel", ".channel #channel your message"], description: "Control channel permissions." },
             ];
 
             return (
@@ -249,22 +249,22 @@
         const GroupWall = () => {
             const [posts, setPosts] = useState([]);
             const [loading, setLoading] = useState(true);
-            const groupId = 'YOUR_ROBLOX_GROUP_ID'; // Replace with your actual Roblox group ID
+
+            // Mock data for group wall posts
+            const mockPosts = [
+                { id: 1, userId: 123, body: "Excited for the new game update!", poster: { userId: 123 }, user: { username: "PlayerOne", avatar: "https://via.placeholder.com/50", role: "Admin" } },
+                { id: 2, userId: 456, body: "Join our event this weekend!", poster: { userId: 456 }, user: { username: "GamerGal", avatar: "https://via.placeholder.com/50", role: "Moderator" } },
+                { id: 3, userId: 789, body: "Looking for team members!", poster: { userId: 789 }, user: { username: "RobloxFan", avatar: "https://via.placeholder.com/50", role: "Member" } },
+            ];
 
             useEffect(() => {
+                // Simulate fetching group wall posts
                 const fetchGroupWall = async () => {
                     try {
-                        const response = await fetch(`https://your-proxy-server.com/api/groups/${groupId}/wall/posts`, {
-                            headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
-                        });
-                        const data = await response.json();
-                        if (data?.data?.length) {
-                            const postsWithUserData = await Promise.all(data.data.slice(0, 6).map(async (post) => {
-                                const userData = await fetchUserDetails(post.poster.userId);
-                                return { ...post, user: userData };
-                            }));
-                            setPosts(postsWithUserData);
-                        }
+                        setLoading(true);
+                        // Replace with actual API call when available
+                        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+                        setPosts(mockPosts);
                         setLoading(false);
                     } catch (error) {
                         console.error('Error fetching group wall:', error);
@@ -277,28 +277,6 @@
                 const interval = setInterval(fetchGroupWall, 60000); // Refresh every minute
                 return () => clearInterval(interval);
             }, []);
-
-            const fetchUserDetails = async (userId) => {
-                try {
-                    const response = await fetch(`https://your-proxy-server.com/api/users/${userId}`, {
-                        headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
-                    });
-                    const userData = await response.json();
-                    const roleResponse = await fetch(`https://your-proxy-server.com/api/groups/${groupId}/roles`, {
-                        headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
-                    });
-                    const roleData = await roleResponse.json();
-                    const userRole = roleData.roles.find(role => role.members.some(member => member.userId === userId));
-
-                    return {
-                        username: userData.name || 'Unknown',
-                        avatar: `https://www.roblox.com/Thumbs/Avatar.ashx?x=50&y=50&userId=${userId}`,
-                        role: userRole ? userRole.name : 'Member'
-                    };
-                } catch (error) {
-                    return { username: 'Unknown', avatar: 'https://via.placeholder.com/50', role: 'Member' };
-                }
-            };
 
             return (
                 <section id="group-wall" className="py-24 bg-black/25">
